@@ -19,4 +19,5 @@ IoT devices (Smart Bulbs, Cameras) are the weakest link in home security( specia
 2.  `python -m streamlit run app.py`
 
 ##  Screenshots
-<img width="1918" height="975" alt="image" src="https://github.com/user-attachments/assets/24801261-8ffc-4f27-9cc8-b198aaeff7e2" />
+<img width="1919" height="965" alt="image" src="https://github.com/user-attachments/assets/e0bfd21e-5ba8-435e-95aa-6ac14792025c" />
+
