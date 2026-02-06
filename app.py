@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import backend
+import alerts  # <--- IMPORTED ALERTS MODULE
 import time
 import plotly.express as px
 
@@ -42,8 +43,8 @@ with st.sidebar:
     st.markdown("---")
     attack_btn = st.button("⚠️ SIMULATE IOT ATTACK", type="primary", help="Inject Malicious Payload")
     
-    if attack_btn:
-        st.toast("🚨 INTRUSION DETECTED! ISOLATING DEVICE...", icon="🔥")
+    # NOTE: We moved the "Success" toast logic to the main loop below 
+    # so it triggers only after the email/discord alert is sent.
 
 # --- MAIN DASHBOARD LAYOUT ---
 st.title("🛡️ IOT SECURITY WAR ROOM")
@@ -56,9 +57,27 @@ if run_simulation:
     # 1. FETCH DATA
     new_packet = backend.get_data_stream(num_packets=1)[0]
     
-    # 2. INJECT ATTACK IF BUTTON PRESSED
+    # 2. INJECT ATTACK & SEND ALERT (UPDATED SECTION)
     if attack_btn:
+        # Generate the fake attack packet
         new_packet = backend.generate_fake_attack()
+        
+        # Show Toast on UI
+        st.toast("🚨 INTRUSION DETECTED! ISOLATING DEVICE...", icon="🔥")
+        
+        # SEND REAL DISCORD ALERT
+        with st.spinner("📡 Transmitting Alert to Command Center..."):
+            # We call the function from your new alerts.py file
+            success = alerts.send_discord_alert(
+                device=new_packet["Device"], 
+                ip=new_packet["Destination"], 
+                threat_score=new_packet["Anomaly_Score"]
+            )
+            
+        if success:
+            st.success("✅ Security Team Notified (Discord)")
+        else:
+            st.warning("⚠️ Alert Logged locally (Network Issue)")
     
     # 3. APPEND TO HISTORY
     # Convert single dict to DataFrame properly
