@@ -27,23 +27,6 @@ Modern Smart Cities and Government Offices are vulnerable. A single compromised 
 ##  Screenshots
 <img width="1919" height="965" alt="image" src="https://github.com/user-attachments/assets/3379299d-2608-497e-b899-6a63c057ef47" />
 
-##  Installation & Usage
-
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/your-username/cyber-rakshak.git](https://github.com/your-username/cyber-rakshak.git)
-    cd cyber-rakshak
-    ```
-
-2.  **Install Dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Run the Application**
-    ```bash
-    streamlit run app.py
-    ```
 
 ## ⚠️ Disclaimer
 This tool is a **Proof of Concept (PoC)** developed for educational purposes and hackathon demonstration. It simulates network attacks and defense mechanisms.
