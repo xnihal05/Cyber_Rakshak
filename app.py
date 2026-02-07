@@ -147,15 +147,51 @@ with st.sidebar:
     # POST-ATTACK TOOLS
     if st.session_state["attack_data"]:
         st.markdown("---")
-        st.markdown("### 🛡️ RESPONSE")
+        st.markdown("### 🛡️ RESPONSE CONSOLE")
         
         attack_info = st.session_state["attack_data"]["packet"]
         
-        # 1. Download Report
-        report_text = f"CONFIDENTIAL REPORT\nTARGET: {attack_info['Destination']}\nTIME: {attack_info['Timestamp']}"
-        st.download_button("📄 Download Forensic Log", report_text, file_name="forensic_log.txt", use_container_width=True)
+        # 1. GENERATE FULL 'GOVERNMENT' REPORT
+        report_text = f"""[TOP SECRET // GOVT OF INDIA // CYBER DEFENSE]
+=============================================================
+       CYBER-RAKSHAK: INCIDENT FORENSIC REPORT
+=============================================================
+INCIDENT ID : CR-{random.randint(1000,9999)}-X
+TIMESTAMP   : {attack_info['Timestamp']}
+STATUS      : 🔴 CRITICAL THREAT CONTAINED
+
+[THREAT INTELLIGENCE]
+-------------------------------------------------------------
+SOURCE IP   : {attack_info['Destination']}
+PROTOCOL    : {attack_info['Protocol']}
+PAYLOAD     : ENCRYPTED_BINARY_BLOB (POSSIBLE RANSOMWARE)
+ANOMALY SC  : {attack_info['Anomaly_Score']} (EXTREME)
+
+[AI ANALYSIS]
+-------------------------------------------------------------
+> Isolation Forest detected deviation in packet size/frequency.
+> Signature matches known APT (Advanced Persistent Threat) patterns.
+
+[COUNTER-MEASURES DEPLOYED]
+-------------------------------------------------------------
+1. DECOY DATA (Fake_Passwords.sql) UPLOADED.
+2. CONNECTION TERMINATED VIA KERNEL FIREWALL.
+3. GEOLOCATION TRACED TO ORIGIN.
+
+[DIGITAL SIGNATURE]
+VERIFIED BY : CYBER-RAKSHAK AI CORE v2.0
+============================================================="""
+        
+        st.markdown("**1. Evidence Collection**")
+        st.download_button(
+            label="📄 DOWNLOAD FULL FORENSIC LOG", 
+            data=report_text, 
+            file_name=f"INCIDENT_REPORT_{attack_info['Timestamp']}.txt", 
+            use_container_width=True
+        )
         
         # 2. Kill Switch
+        st.markdown("**2. Active Defense**")
         if st.button("⛔ ENGAGE KILL SWITCH", type="secondary", use_container_width=True):
             progress_bar = st.progress(0)
             status_text = st.empty()
@@ -176,17 +212,14 @@ with st.sidebar:
     
     # --- NETWORK SCANNER SECTION ---
     if st.button("🔍 Scan Network", use_container_width=True):
-        # Trigger the scan and save to session state
         st.session_state["scan_results"] = backend.scan_network_devices()
         
     # DISPLAY RESULTS IF THEY EXIST
     if st.session_state["scan_results"] is not None:
         st.success(f"Found {len(st.session_state['scan_results'])} Devices")
         
-        # Convert to DataFrame for cleaner display
         scan_df = pd.DataFrame(st.session_state["scan_results"])
         
-        # Display just the important columns to save space
         if not scan_df.empty:
             st.dataframe(
                 scan_df[["IP", "Status", "Type"]], 
@@ -244,7 +277,7 @@ if run_simulation:
             st.markdown('<div class="css-card">', unsafe_allow_html=True)
             st.subheader("🌍 Real-Time Threat Tracer")
             
-            # --- MAP LOGIC ---
+            # --- MAP LOGIC (FIXED) ---
             start_lat, start_lon = 20.5937, 78.9629  # India
             
             fig = go.Figure()
@@ -281,19 +314,21 @@ if run_simulation:
                     textfont = dict(color="#ccff00", size=11, family="Helvetica")
                 ))
 
-            # --- MAP STYLING (REMOVED WHITE BOX) ---
+            # --- MAP STYLING (FIXED - NO WHITE BOX) ---
             fig.update_layout(
+                template="plotly_dark", # Force Dark Theme
                 geo = dict(
                     projection_type = "equirectangular",
-                    showland = True, landcolor = "#262626",
+                    showland = True, landcolor = "#262626", # Matches Metric BG
                     showocean = True, oceancolor = "#1a1a1a", # Matches Card BG
                     showcountries = True, countrycolor = "#444",
                     showcoastlines = False,
-                    bgcolor = "#1a1a1a" # Matches Card BG
+                    bgcolor = "rgba(0,0,0,0)",
+                    showframe = False
                 ),
                 margin = dict(l=0, r=0, t=10, b=0),
-                paper_bgcolor = "#1a1a1a", # Matches Card BG
-                plot_bgcolor = "#1a1a1a",
+                paper_bgcolor = "rgba(0,0,0,0)", # Transparent
+                plot_bgcolor = "rgba(0,0,0,0)",
                 height = 300,
                 showlegend = False
             )
