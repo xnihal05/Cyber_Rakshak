@@ -25,7 +25,7 @@ Modern Smart Cities and Government Offices are vulnerable. A single compromised 
 * **Visualization:** Plotly Express & Graph Objects
 
 ##  Screenshots
-*(Add a screenshot of your dashboard here later)*
+<img width="1919" height="965" alt="image" src="https://github.com/user-attachments/assets/3379299d-2608-497e-b899-6a63c057ef47" />
 
 ##  Installation & Usage
 
